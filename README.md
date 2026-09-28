@@ -1,147 +1,94 @@
 # Marketing Campaign ROI Analysis
 
-An end-to-end marketing analytics project using **Python, SQL, statistics, and Power BI** to evaluate campaign efficiency, conversion performance, customer intent, and return on advertising spend.
+An end-to-end marketing analytics project using **Python, SQL, statistical analysis, and Power BI** to evaluate campaign efficiency, audience behaviour, creative performance, and channel-level outcomes.
 
-## Business Problem
+## 📊 Dashboard Preview
 
-Marketing teams need to understand which campaigns and channels generate efficient customer acquisition and revenue. This project builds a repeatable analytical workflow to:
+### Executive Overview
+![Executive Overview](dashboard/01_executive_overview.png)
 
-- audit and validate campaign data
-- clean and engineer analysis-ready features
-- measure acquisition and conversion KPIs
-- compare advertising platforms
-- evaluate retargeting performance
-- test whether observed conversion differences are statistically significant
-- prepare insights for an interactive Power BI dashboard
+### Audience Performance
+![Audience Performance](dashboard/02_audience_analysis.png)
 
-## Dataset
+### Creative & Campaign Analysis
+![Creative & Campaign Analysis](dashboard/03_creative_campaign_analysis.png)
 
-- **10,000 campaign records**
-- **43 fields**
-- Campaign, audience, creative, platform, engagement, conversion, spend, revenue and profitability attributes
+## 🎯 Business Questions
 
-## Tools
+- How efficiently are marketing campaigns converting advertising spend into revenue?
+- Which platforms and campaign objectives show stronger ROAS?
+- How does performance vary across audience segments?
+- How do creative format, copy length, emotion, and call-to-action relate to performance?
+- Is there a measurable difference between retargeting and non-retargeting campaigns?
 
-- **Python:** Pandas, NumPy, Matplotlib, SciPy
-- **SQL:** MySQL-compatible analytical queries
-- **Power BI:** KPI reporting and interactive dashboarding
-- **Statistics:** Welch's independent t-test, chi-square test, confidence interval
-
-## Analytical Workflow
-
-### 1. Data Audit
-
-The audit checks:
-
-- duplicate records
-- missing values
-- impossible relationships such as clicks exceeding impressions or conversions exceeding clicks
-- negative spend/revenue values
-- zero-denominator cases
-- consistency between supplied and recalculated KPIs
-
-Core metrics were independently recalculated for CTR, CPC, conversion rate, CPA, ROAS and profit.
-
-### 2. Data Cleaning & Feature Engineering
-
-The cleaning workflow includes date conversion, handling zero-conversion campaigns for CPA analysis, and creation of a `conversion_status` feature.
-
-CPA is treated as undefined for campaigns with zero conversions rather than forcing an artificial numeric value.
-
-### 3. KPI Analysis
+## 🔎 Key KPIs
 
 | KPI | Result |
 |---|---:|
-| Impressions | 705,392,200 |
-| Clicks | 15,264,360 |
+| Records analysed | 10,000 |
+| Impressions | 705.4M |
+| Clicks | 15.26M |
 | Conversions | 655,688 |
-| Ad Spend | 43,455,660 |
-| Revenue | 284,157,700 |
-| Profit | 240,702,000 |
-| Overall CTR | 2.164% |
-| Overall Conversion Rate | 4.296% |
-| Overall ROAS | 6.539x |
-| Overall CPA | 66.27 |
+| Ad Spend | $43.46M |
+| Revenue | $284.16M |
+| Profit | $240.70M |
+| Overall ROAS | 6.54× |
+| Overall Conversion Rate | 4.30% |
+| Overall CPA | $66.27 |
 
-### 4. Platform Performance
+## 🧪 Statistical Analysis
 
-Platform performance was evaluated using campaign count, spend, revenue, conversions, median ROAS, median CPA, median conversion rate, median CTR and total profit.
+Retargeting campaigns were compared with non-retargeting campaigns using Welch's independent two-sample t-test.
 
-The analysis deliberately uses **median campaign-level efficiency metrics** alongside aggregate totals, because a platform's total revenue can be heavily influenced by the amount of spend or number of campaigns it receives.
+- Mean conversion rate — retargeting: **5.17%**
+- Mean conversion rate — non-retargeting: **3.14%**
+- Mean difference: **2.03 percentage points**
+- 95% confidence interval: **1.80–2.26 percentage points**
+- Welch t-test p-value: **≈ 1.04 × 10⁻⁶⁴**
 
-### 5. Retargeting Analysis
+A chi-square test was also used to examine the relationship between retargeting status and purchase-intent category. The result was not statistically significant (p ≈ 0.427), so the project does not treat that relationship as established.
 
-Retargeting represented **24.7%** of campaigns, compared with **75.3%** non-retargeting.
+## 🛠️ Tools & Techniques
 
-| Group | Campaigns | Mean Conversion Rate | Median Conversion Rate |
-|---|---:|---:|---:|
-| Non-retargeting | 7,530 | 3.142% | 1.905% |
-| Retargeting | 2,470 | 5.174% | 3.236% |
+**Python:** Pandas, NumPy, Matplotlib, SciPy  
+**SQL:** KPI aggregation, segmentation, campaign/platform analysis  
+**Power BI:** Interactive dashboards, slicers, KPI reporting, trend analysis  
+**Statistics:** Welch's t-test, confidence intervals, chi-square test  
+**Analytics:** EDA, funnel analysis, audience segmentation, ROAS/CPA/CTR analysis
 
-The difference in mean conversion rate was **2.032 percentage points**.
-
-A Welch independent t-test produced:
-
-- t = **17.36**
-- p ≈ **1.04 × 10⁻⁶⁴**
-- 95% CI for the mean difference: approximately **1.80 to 2.26 percentage points**
-
-This provides strong statistical evidence of a difference in conversion rates between the two groups in this dataset. It does **not**, by itself, establish that retargeting caused the difference, because this is observational campaign data rather than a randomized experiment.
-
-### 6. Purchase Intent Test
-
-A chi-square test was used to examine the relationship between `retargeting_flag` and `purchase_intent_score`.
-
-- χ² ≈ **1.70**
-- p ≈ **0.427**
-- df = **2**
-
-The test does not provide statistical evidence of an association between these two categorical variables in this dataset.
-
-## Key Takeaways
-
-1. The dataset represents a large-scale campaign environment with **705M+ impressions and 655K+ conversions**.
-2. Overall advertising performance was **6.54x ROAS** with a **4.30% conversion rate**.
-3. Platform efficiency varies substantially when evaluated using campaign-level median metrics.
-4. Retargeting campaigns show a materially higher average conversion rate than non-retargeting campaigns in this dataset.
-5. The retargeting conversion-rate difference is statistically significant, while the relationship between retargeting and purchase-intent category is not statistically significant.
-6. Statistical significance should be interpreted alongside campaign design and potential confounding factors rather than as proof of causality.
-
-## Repository Structure
+## 📁 Project Structure
 
 ```text
 marketing-campaign-roi-analysis/
-│
+├── dashboard/
+│   ├── 01_executive_overview.png
+│   ├── 02_audience_analysis.png
+│   ├── 03_creative_campaign_analysis.png
+│   └── README.md
 ├── data/
 │   └── marketing_campaigns_cleaned.csv
-│
+├── docs/
+│   └── methodology.md
 ├── notebooks/
 │   ├── 01_data_audit.ipynb
 │   ├── 02_data_cleaning.ipynb
 │   └── 03_eda.ipynb
-│
 ├── sql/
 │   └── marketing_campaign_analysis.sql
-│
-├── dashboard/
-│   └── README.md
-│
-├── docs/
-│   └── methodology.md
-│
+├── .gitignore
 ├── README.md
-├── requirements.txt
-└── .gitignore
+└── requirements.txt
 ```
 
-## How to Reproduce
+## 🔄 Analytical Workflow
 
-1. Clone the repository.
-2. Install the Python dependencies in `requirements.txt`.
-3. Run the notebooks in order: audit → cleaning → EDA.
-4. Load the cleaned CSV into MySQL and run the SQL analysis queries.
-5. Open the Power BI dashboard using the included cleaned dataset.
+**Data Audit → Data Cleaning → Feature Engineering → EDA → SQL Analysis → Statistical Testing → Power BI Dashboard**
 
-## Important Note on the Dashboard
+## 💡 What This Project Demonstrates
 
-The Power BI `.pbix` file is intentionally not embedded in this repository package yet. Add the final dashboard file or dashboard screenshots after the visual layout has been finalized.
+- Cleaning and validating marketing campaign data
+- Translating business questions into measurable KPIs
+- Analysing campaign performance with Python and SQL
+- Using statistical tests rather than relying only on visual differences
+- Building interactive Power BI dashboards for business users
+- Communicating analytical findings while distinguishing association from causation
